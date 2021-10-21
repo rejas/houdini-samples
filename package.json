@@ -1,0 +1,23 @@
+{
+  "name": "houdini-samples",
+  "version": "1.0.0",
+  "description": "Samples for the specifications of the [Houdini task force].",
+  "main": "index.js",
+  "scripts": {
+    "start": "http-server .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GoogleChromeLabs/houdini-samples.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GoogleChromeLabs/houdini-samples/issues"
+  },
+  "homepage": "https://github.com/GoogleChromeLabs/houdini-samples#readme",
+  "devDependencies": {
+    "http-server": "^14.0.0"
+  }
+}

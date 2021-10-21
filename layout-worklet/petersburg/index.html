@@ -1,0 +1,84 @@
+<!doctype html>
+<style>
+    #petersburg {
+        display: layout(petersburg);
+        --padding: 20;
+        --seed: "";
+        --variance: 100;
+    }
+
+    #petersburg > img {
+        background: #ff0;
+        color: #111;
+        font: 1em sans-serif;
+        padding: 20px;
+        max-width: -webkit-fill-available;
+        min-width: -webkit-fill-available;
+    }
+
+    #petersburg > div:nth-child(odd) {
+        background: #08c4c4;
+    }
+
+    #petersburg > div::first-letter {
+        font-size: 200%;
+    }
+
+    html {
+        background: #112;
+        color: #aaa;
+    }
+</style>
+
+
+<div>
+    <label for="padding">Padding</label>
+    0 <input type="range" id="padding" name="padding" min="0" max="50" value="20"/> 50
+
+    <b>||</b>
+
+    <label for="variance">Variance</label>
+    0 <input type="range" id="variance" name="variance" min="0" max="100" value="100"/> 100
+
+    <b>||</b>
+
+    <label for="padding">Seed</label>
+    <input type="text" id="seed" name="seed"/>
+</div>
+
+<hr>
+<div id="petersburg">
+    <img src="https://www.fillmurray.com/200/300"/>
+    <img src="https://www.placecage.com//300/300"/>
+    <img src="https://www.fillmurray.com/400/300"/>
+    <img src="https://www.placecage.com/150/100"/>
+    <img src="https://www.fillmurray.com/250/240"/>
+    <img src="https://www.placecage.com/200/200"/>
+</div>
+<hr>
+
+<script>
+    document.querySelector('#padding').addEventListener('input', (e) => {
+      document.querySelector('#petersburg').attributeStyleMap.set('--padding', e.target.value);
+    });
+    document.querySelector('#variance').addEventListener('input', (e) => {
+        document.querySelector('#petersburg').attributeStyleMap.set('--variance', e.target.value);
+    });
+    document.querySelector('#seed').addEventListener('input', (e) => {
+        // rng is used to demonstrate what happens when random is real random
+        document.querySelector('#petersburg').attributeStyleMap.set('--seed', !!e.target.value ? e.target.value : "rng");
+    });
+
+    CSS.layoutWorklet.addModule('./petersburg.js');
+    /*
+      if (location.protocol === 'http:' && location.hostname !== 'localhost')
+        location.protocol = 'https:';
+
+      document.querySelectorAll('div').forEach(elem => {
+        const t = elem.textContent;
+        // Cut out a random amount of text, but keep at least 10 characters
+        elem.textContent = t.slice(0, Math.floor(Math.random() * (t.length - 10) + 10));
+      })
+        CSS.layoutWorklet.addModule('masonry.js');
+    */
+</script>
