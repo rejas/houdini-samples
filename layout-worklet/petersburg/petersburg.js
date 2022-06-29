@@ -11,7 +11,19 @@ if (typeof registerLayout !== undefined) {
 
         async intrinsicSizes() { /* TODO implement :) */ }
 
+        getFreeRow(imageWidthPercentage, grid) {
+            for (let i = 0; i < grid.length; i++) {
+                for (let j = 0; j < grid[i].length; j++) {
+                    // check if row is free:
+                    if (!(grid[i].slice(j, j + imageWidthPercentage).includes(1))) {
+                        return {row: i, column: j};
+                    }
+                }
+            }
+        }
+
         async layout(children, edges, constraints, styleMap) {
+
             const columns = 2;
 
             // How much can the images change their width
@@ -22,7 +34,7 @@ if (typeof registerLayout !== undefined) {
             if (seed !== "rng")
                 Math.seedrandom(seed);
 
-            // size of the browser window
+            // size of the container
             const inlineSize = constraints.fixedInlineSize;
             const middle = inlineSize / 2;
             console.log("inlineSize: "  + inlineSize);
@@ -56,6 +68,25 @@ if (typeof registerLayout !== undefined) {
                 autoBlockSize = Math.max(autoBlockSize, columnOffsets[isEven ? 0 : 1] + padding);
             });
 
+            // Petersburg
+            const matrixSize = 10;
+            const grid = Array(matrixSize).fill(Array(matrixSize).fill(0));
+
+            for (const childFragment of childFragments) {
+                let imageWidthPercentage = parseInt(matrixSize * childFragment.inlineSize / inlineSize);
+                let freeRow = this.getFreeRow(imageWidthPercentage, grid);
+                console.log("freeRow: " + freeRow.row + ":" + freeRow.column);
+
+                // console.log(imageWidthPercentage); // how much percentage does the image need?
+                if (freeRow) {
+                    for (let i = 0; i < imageWidthPercentage; i++) {
+                        grid[freeRow.row][freeRow.column + i] = 1;
+                    }
+                } else {
+                    console.error("no more space!");
+                }
+                console.table(grid);
+            }
 
             return {autoBlockSize, childFragments};
         }
